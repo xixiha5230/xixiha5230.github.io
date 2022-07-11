@@ -148,6 +148,84 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://xixiha5230.github.io/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixiha">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixiha's Blogs">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/" class="post-title-link" itemprop="url">Windows 11 开启 Doh</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-11 17:45:32 / Modified: 18:22:33" itemprop="dateCreated datePublished" datetime="2022-07-11T17:45:32+08:00">2022-07-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>管理员模式的CMD中运行如下命令行来添加doh服务器</p>
+<p>阿里云doh：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh dns add encryption server=223.5.5.5 dohtemplate=https://223.5.5.5/dns-query autoupgrade=yes udpfallback=no</span><br></pre></td></tr></table></figure>
+
+<p>腾讯doh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh dns add encryption server=1.12.12.12 dohtemplate=https://1.12.12.12/dns-query autoupgrade=yes udpfallback=no</span><br></pre></td></tr></table></figure></li>
+<li><p>添加后可以使用<code>win+r</code>，输入<code>regedit</code>在以下路径中查看到注册表已经添加了doh服务器</p>
+<p><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers</code></p>
+<p><img src="https://s2.loli.net/2022/07/11/YP9b43SCusqLHF8.png" alt="image-20220711175808392"></p>
+</li>
+<li><p>使用<strong>WIFI</strong> 打开 <code>设置 -&gt; 网络和Internet -&gt; WLAN</code>，点击<strong>硬件属性</strong>，不是具体WiFi的属性，下一步</p>
+<p>或</p>
+<p>使用<strong>网线</strong>打开 <code>设置 -&gt; 网络和Internet -&gt; 以太网</code>，下一步</p>
+<p><img src="https://raw.githubusercontent.com/xixiha5230/blog_images/main/image-20220711180232871.png" alt="image-20220711180232871"></p>
+</li>
+<li><p>在dns设置栏点击<strong>编辑</strong>，再输入刚刚添加的doh服务器的IP，并选择是否加密，完成！</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/xixiha5230/blog_images/main/image-20220711180447951.png" alt="image-20220711180447951"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://xixiha5230.github.io/2022/04/24/openvpn%E5%8F%AA%E4%BB%A3%E7%90%86%E6%8C%87%E5%AE%9Aip%E6%AE%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -639,12 +717,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>

@@ -20,23 +20,24 @@
     var CONFIG = {"hostname":"xixiha5230.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="用处wsl2 获取外部ip 获取局域网ip 虚拟网卡 系统版本要求Windows 10 Build 18362及更高版本或Windows 11 安装预览版WSL应用商店搜索：windows subsystem for linux preview windows可选功能中打开Hyper-V并重启 打开Hyper-V管理器 –&gt; 虚拟交换机管理器 –&gt; 新建虚拟交换机 关闭wsl1wsl">
+  <meta name="description" content="步骤 管理员模式的CMD中运行如下命令行来添加doh服务器 阿里云doh： 1netsh dns add encryption server&#x3D;223.5.5.5 dohtemplate&#x3D;https:&#x2F;&#x2F;223.5.5.5&#x2F;dns-query autoupgrade&#x3D;yes udpfallback&#x3D;no  腾讯doh 1netsh dns add encryption server&#x3D;1.12.12.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WSL2网络桥接">
-<meta property="og:url" content="https://xixiha5230.github.io/2022/03/05/WSL2%E7%BD%91%E7%BB%9C%E6%A1%A5%E6%8E%A5/index.html">
+<meta property="og:title" content="Windows 11 开启 Doh">
+<meta property="og:url" content="https://xixiha5230.github.io/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/index.html">
 <meta property="og:site_name" content="xixiha&#39;s Blogs">
-<meta property="og:description" content="用处wsl2 获取外部ip 获取局域网ip 虚拟网卡 系统版本要求Windows 10 Build 18362及更高版本或Windows 11 安装预览版WSL应用商店搜索：windows subsystem for linux preview windows可选功能中打开Hyper-V并重启 打开Hyper-V管理器 –&gt; 虚拟交换机管理器 –&gt; 新建虚拟交换机 关闭wsl1wsl">
+<meta property="og:description" content="步骤 管理员模式的CMD中运行如下命令行来添加doh服务器 阿里云doh： 1netsh dns add encryption server&#x3D;223.5.5.5 dohtemplate&#x3D;https:&#x2F;&#x2F;223.5.5.5&#x2F;dns-query autoupgrade&#x3D;yes udpfallback&#x3D;no  腾讯doh 1netsh dns add encryption server&#x3D;1.12.12.">
 <meta property="og:locale">
-<meta property="og:image" content="https://tvax1.sinaimg.cn/large/ed79c210gy1gzzccd4zd7j20dg0djag7.jpg">
-<meta property="og:image" content="https://tvax3.sinaimg.cn/large/ed79c210gy1gzzcgtquzqj20k60j50wx.jpg">
-<meta property="article:published_time" content="2022-03-05T13:36:14.000Z">
-<meta property="article:modified_time" content="2022-03-05T13:56:55.229Z">
+<meta property="og:image" content="https://s2.loli.net/2022/07/11/YP9b43SCusqLHF8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xixiha5230/blog_images/main/image-20220711180232871.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/xixiha5230/blog_images/main/image-20220711180447951.png">
+<meta property="article:published_time" content="2022-07-11T09:45:32.000Z">
+<meta property="article:modified_time" content="2022-07-11T10:22:33.392Z">
 <meta property="article:author" content="xixiha">
-<meta property="article:tag" content="wsl2 桥接">
+<meta property="article:tag" content="windows">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://tvax1.sinaimg.cn/large/ed79c210gy1gzzccd4zd7j20dg0djag7.jpg">
+<meta name="twitter:image" content="https://s2.loli.net/2022/07/11/YP9b43SCusqLHF8.png">
 
-<link rel="canonical" href="https://xixiha5230.github.io/2022/03/05/WSL2%E7%BD%91%E7%BB%9C%E6%A1%A5%E6%8E%A5/">
+<link rel="canonical" href="https://xixiha5230.github.io/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/">
 
 
 <script id="page-configurations">
@@ -49,7 +50,7 @@
   };
 </script>
 
-  <title>WSL2网络桥接 | xixiha's Blogs</title>
+  <title>Windows 11 开启 Doh | xixiha's Blogs</title>
   
 
 
@@ -155,7 +156,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://xixiha5230.github.io/2022/03/05/WSL2%E7%BD%91%E7%BB%9C%E6%A1%A5%E6%8E%A5/">
+    <link itemprop="mainEntityOfPage" href="https://xixiha5230.github.io/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -168,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          WSL2网络桥接
+          Windows 11 开启 Doh
         </h1>
 
         <div class="post-meta">
@@ -179,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-03-05 21:36:14 / Modified: 21:56:55" itemprop="dateCreated datePublished" datetime="2022-03-05T21:36:14+08:00">2022-03-05</time>
+              <time title="Created: 2022-07-11 17:45:32 / Modified: 18:22:33" itemprop="dateCreated datePublished" datetime="2022-07-11T17:45:32+08:00">2022-07-11</time>
             </span>
 
           
@@ -193,14 +194,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h2><p>wsl2 获取外部ip 获取局域网ip 虚拟网卡</p>
-<h3 id="系统版本要求"><a href="#系统版本要求" class="headerlink" title="系统版本要求"></a>系统版本要求</h3><p><code>Windows 10 Build 18362</code>及更高版本或<code>Windows 11</code></p>
-<h3 id="安装预览版WSL"><a href="#安装预览版WSL" class="headerlink" title="安装预览版WSL"></a>安装预览版WSL</h3><p>应用商店搜索：<code>windows subsystem for linux preview</code></p>
-<h3 id="windows可选功能中打开Hyper-V并重启"><a href="#windows可选功能中打开Hyper-V并重启" class="headerlink" title="windows可选功能中打开Hyper-V并重启"></a>windows可选功能中打开Hyper-V并重启</h3><p><img src="https://tvax1.sinaimg.cn/large/ed79c210gy1gzzccd4zd7j20dg0djag7.jpg" alt="image"></p>
-<h3 id="打开Hyper-V管理器-–-gt-虚拟交换机管理器-–-gt-新建虚拟交换机"><a href="#打开Hyper-V管理器-–-gt-虚拟交换机管理器-–-gt-新建虚拟交换机" class="headerlink" title="打开Hyper-V管理器 –&gt; 虚拟交换机管理器 –&gt; 新建虚拟交换机"></a>打开Hyper-V管理器 –&gt; 虚拟交换机管理器 –&gt; 新建虚拟交换机</h3><p><img src="https://tvax3.sinaimg.cn/large/ed79c210gy1gzzcgtquzqj20k60j50wx.jpg" alt="image"></p>
-<h3 id="关闭wsl"><a href="#关闭wsl" class="headerlink" title="关闭wsl"></a>关闭wsl</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+        <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li><p>管理员模式的CMD中运行如下命令行来添加doh服务器</p>
+<p>阿里云doh：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh dns add encryption server=223.5.5.5 dohtemplate=https://223.5.5.5/dns-query autoupgrade=yes udpfallback=no</span><br></pre></td></tr></table></figure>
 
-<h3 id="修改-wslconfig配置文件：位于C-Users-lt-用户名-gt-wslconfig"><a href="#修改-wslconfig配置文件：位于C-Users-lt-用户名-gt-wslconfig" class="headerlink" title="修改.wslconfig配置文件：位于C:\Users\&lt;用户名&gt;\.wslconfig"></a>修改.wslconfig配置文件：位于<code>C:\Users\&lt;用户名&gt;\.wslconfig</code></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[wsl2]</span><br><span class="line">networkingMode=bridged</span><br><span class="line">vmSwitch=替换成你创建的虚拟交换机名称</span><br></pre></td></tr></table></figure>
+<p>腾讯doh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netsh dns add encryption server=1.12.12.12 dohtemplate=https://1.12.12.12/dns-query autoupgrade=yes udpfallback=no</span><br></pre></td></tr></table></figure></li>
+<li><p>添加后可以使用<code>win+r</code>，输入<code>regedit</code>在以下路径中查看到注册表已经添加了doh服务器</p>
+<p><code>计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DohWellKnownServers</code></p>
+<p><img src="https://s2.loli.net/2022/07/11/YP9b43SCusqLHF8.png" alt="image-20220711175808392"></p>
+</li>
+<li><p>使用<strong>WIFI</strong> 打开 <code>设置 -&gt; 网络和Internet -&gt; WLAN</code>，点击<strong>硬件属性</strong>，不是具体WiFi的属性，下一步</p>
+<p>或</p>
+<p>使用<strong>网线</strong>打开 <code>设置 -&gt; 网络和Internet -&gt; 以太网</code>，下一步</p>
+<p><img src="https://raw.githubusercontent.com/xixiha5230/blog_images/main/image-20220711180232871.png" alt="image-20220711180232871"></p>
+</li>
+<li><p>在dns设置栏点击<strong>编辑</strong>，再输入刚刚添加的doh服务器的IP，并选择是否加密，完成！</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/xixiha5230/blog_images/main/image-20220711180447951.png" alt="image-20220711180447951"></p>
 
     </div>
 
@@ -210,7 +223,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/wsl2-%E6%A1%A5%E6%8E%A5/" rel="tag"># wsl2 桥接</a>
+              <a href="/tags/windows/" rel="tag"># windows</a>
           </div>
 
         
@@ -219,13 +232,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/02/22/ROS%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" rel="prev" title="ROS远程连接注意事项">
-      <i class="fa fa-chevron-left"></i> ROS远程连接注意事项
+    <a href="/2022/04/24/openvpn%E5%8F%AA%E4%BB%A3%E7%90%86%E6%8C%87%E5%AE%9Aip%E6%AE%B5/" rel="prev" title="openvpn只代理指定ip段">
+      <i class="fa fa-chevron-left"></i> openvpn只代理指定ip段
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/24/openvpn%E5%8F%AA%E4%BB%A3%E7%90%86%E6%8C%87%E5%AE%9Aip%E6%AE%B5/" rel="next" title="openvpn只代理指定ip段">
-      openvpn只代理指定ip段 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -284,7 +294,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%A4%84"><span class="nav-number">1.</span> <span class="nav-text">用处</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">系统版本要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E9%A2%84%E8%A7%88%E7%89%88WSL"><span class="nav-number">1.2.</span> <span class="nav-text">安装预览版WSL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows%E5%8F%AF%E9%80%89%E5%8A%9F%E8%83%BD%E4%B8%AD%E6%89%93%E5%BC%80Hyper-V%E5%B9%B6%E9%87%8D%E5%90%AF"><span class="nav-number">1.3.</span> <span class="nav-text">windows可选功能中打开Hyper-V并重启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80Hyper-V%E7%AE%A1%E7%90%86%E5%99%A8-%E2%80%93-gt-%E8%99%9A%E6%8B%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%AE%A1%E7%90%86%E5%99%A8-%E2%80%93-gt-%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.4.</span> <span class="nav-text">打开Hyper-V管理器 –&gt; 虚拟交换机管理器 –&gt; 新建虚拟交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%ADwsl"><span class="nav-number">1.5.</span> <span class="nav-text">关闭wsl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-wslconfig%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9A%E4%BD%8D%E4%BA%8EC-Users-lt-%E7%94%A8%E6%88%B7%E5%90%8D-gt-wslconfig"><span class="nav-number">1.6.</span> <span class="nav-text">修改.wslconfig配置文件：位于C:\Users\&lt;用户名&gt;\.wslconfig</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.</span> <span class="nav-text">步骤</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
