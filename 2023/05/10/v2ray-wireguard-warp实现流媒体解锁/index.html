@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xixiha5230.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="适用于 Debian 10v2ray安装12345wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;v2fly&#x2F;fhs-install-v2ray&#x2F;master&#x2F;install-release.shsudo chmod  u+x install-release.shsudo bash install-release.sh  配置文件1234567891011121314">
+<meta property="og:type" content="article">
+<meta property="og:title" content="v2ray+wireguard+warp实现流媒体解锁">
+<meta property="og:url" content="https://xixiha5230.github.io/2023/05/10/v2ray-wireguard-warp%E5%AE%9E%E7%8E%B0%E6%B5%81%E5%AA%92%E4%BD%93%E8%A7%A3%E9%94%81/index.html">
+<meta property="og:site_name" content="xixiha&#39;s Blogs">
+<meta property="og:description" content="适用于 Debian 10v2ray安装12345wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;v2fly&#x2F;fhs-install-v2ray&#x2F;master&#x2F;install-release.shsudo chmod  u+x install-release.shsudo bash install-release.sh  配置文件1234567891011121314">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-05-10T14:38:20.000Z">
+<meta property="article:modified_time" content="2023-05-10T15:20:19.641Z">
+<meta property="article:author" content="xixiha">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xixiha5230.github.io/2023/05/10/v2ray-wireguard-warp%E5%AE%9E%E7%8E%B0%E6%B5%81%E5%AA%92%E4%BD%93%E8%A7%A3%E9%94%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>v2ray+wireguard+warp实现流媒体解锁 | xixiha's Blogs</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xixiha's Blogs</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">https://github.com/xixiha5230/</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://xixiha5230.github.io/2023/05/10/v2ray-wireguard-warp%E5%AE%9E%E7%8E%B0%E6%B5%81%E5%AA%92%E4%BD%93%E8%A7%A3%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixiha">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixiha's Blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          v2ray+wireguard+warp实现流媒体解锁
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-10 22:38:20 / Modified: 23:20:19" itemprop="dateCreated datePublished" datetime="2023-05-10T22:38:20+08:00">2023-05-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="适用于-Debian-10"><a href="#适用于-Debian-10" class="headerlink" title="适用于 Debian 10"></a>适用于 Debian 10</h1><h2 id="v2ray"><a href="#v2ray" class="headerlink" title="v2ray"></a>v2ray</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh</span><br><span class="line"></span><br><span class="line">sudo chmod  u+x install-release.sh</span><br><span class="line"></span><br><span class="line">sudo bash install-release.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;inbounds&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;port&quot;</span>: <span class="number">10809</span>,</span><br><span class="line">            <span class="attr">&quot;listen&quot;</span>: <span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;protocol&quot;</span>: <span class="string">&quot;vless&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;settings&quot;</span>: &#123;</span><br><span class="line">                <span class="attr">&quot;clients&quot;</span>: [</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">&quot;id&quot;</span>: <span class="string">&quot;UUID&quot;</span>,</span><br><span class="line">                        <span class="attr">&quot;level&quot;</span>: <span class="number">0</span>,</span><br><span class="line">                        <span class="attr">&quot;email&quot;</span>: <span class="string">&quot;email&quot;</span></span><br><span class="line">                    &#125;</span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">&quot;decryption&quot;</span>: <span class="string">&quot;none&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">&quot;streamSettings&quot;</span>: &#123;</span><br><span class="line">                <span class="attr">&quot;network&quot;</span>: <span class="string">&quot;ws&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;security&quot;</span>: <span class="string">&quot;none&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;wsSettings&quot;</span>: &#123;</span><br><span class="line">                    <span class="attr">&quot;path&quot;</span>: <span class="string">&quot;/path&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">&quot;sniffing&quot;</span>: &#123;</span><br><span class="line">                <span class="attr">&quot;enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="attr">&quot;destOverride&quot;</span>: [<span class="string">&quot;http&quot;</span>, <span class="string">&quot;tls&quot;</span>]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;outbounds&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;tag&quot;</span>: <span class="string">&quot;default&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;protocol&quot;</span>: <span class="string">&quot;freedom&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="重启、开机自启"><a href="#重启、开机自启" class="headerlink" title="重启、开机自启"></a>重启、开机自启</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo service v2ray restart</span><br><span class="line"></span><br><span class="line">sudo systemctl enable v2ray</span><br></pre></td></tr></table></figure>
+
+<h2 id="caddy"><a href="#caddy" class="headerlink" title="caddy"></a>caddy</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https</span><br><span class="line"></span><br><span class="line">curl -1sLf &#x27;https://dl.cloudsmith.io/public/caddy/stable/gpg.key&#x27; | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg</span><br><span class="line"></span><br><span class="line">curl -1sLf &#x27;https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt&#x27; | sudo tee /etc/apt/sources.list.d/caddy-stable.list</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install caddy</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置文件-1"><a href="#配置文件-1" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">www.your_domain.com</span><br><span class="line">&#123;</span><br><span class="line">  log &#123;</span><br><span class="line">    output file /var/log/caddy/caddy.log</span><br><span class="line">  &#125;</span><br><span class="line">  tls email@gmail.com</span><br><span class="line">  root * /home/user/web</span><br><span class="line">  try_files /home/user/web/index.html</span><br><span class="line">  @websockets &#123;</span><br><span class="line">    header Connection Upgrade</span><br><span class="line">    header Upgrade websocket</span><br><span class="line">  &#125;</span><br><span class="line">  reverse_proxy @websockets localhost:10809</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="wgcf"><a href="#wgcf" class="headerlink" title="wgcf"></a><a target="_blank" rel="noopener" href="https://github.com/ViRb3/wgcf">wgcf</a></h2><h3 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/ViRb3/wgcf/releases/tag/v2.2.17</span><br><span class="line"></span><br><span class="line">tar -zcvf wgcf_2.2.17_linux_amd64</span><br><span class="line"></span><br><span class="line">sudo mv wgcf_2.2.17 /user/local/bin/wgcf</span><br><span class="line"></span><br><span class="line">sudo chmod u+x /user/local/bin/wgcf</span><br></pre></td></tr></table></figure>
+
+<h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wgcf register</span><br></pre></td></tr></table></figure>
+<p>The new account will be saved under <code>wgcf-account.toml</code></p>
+<h3 id="生成wireguard配置文件"><a href="#生成wireguard配置文件" class="headerlink" title="生成wireguard配置文件"></a>生成wireguard配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wgcf generate</span><br></pre></td></tr></table></figure>
+<p>The WireGuard profile will be saved under <code>wgcf-profile.conf</code>. </p>
+<h2 id="WireGuard"><a href="#WireGuard" class="headerlink" title="WireGuard"></a>WireGuard</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a><a target="_blank" rel="noopener" href="https://gist.github.com/phlinhng/b7919805fb66fb3d34a3f06625eb89bc">参考</a></h3><h3 id="升级debian内核"><a href="#升级debian内核" class="headerlink" title="升级debian内核"></a>升级debian内核</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb http://deb.debian.org/debian buster-backports main&quot; &gt; /etc/apt/sources.list.d/backports.list</span><br><span class="line"></span><br><span class="line">apt update</span><br><span class="line">apt -t buster-backports install linux-image-amd64</span><br><span class="line">apt -t buster-backports install linux-headers-amd64</span><br><span class="line">update-grub</span><br><span class="line"></span><br><span class="line">shutdown -r now</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载旧内核"><a href="#卸载旧内核" class="headerlink" title="卸载旧内核"></a>卸载旧内核</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br><span class="line"></span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line">apt -y remove --purge $(dpkg -l | grep linux-image | awk &#x27;&#123;print$2&#125;&#x27; | grep -v $(uname -r))</span><br><span class="line"></span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb http://deb.debian.org/debian buster-backports main&quot; &gt; /etc/apt/sources.list.d/backports.list</span><br><span class="line">sudo apt update</span><br><span class="line"></span><br><span class="line">sudo apt install wireguard</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置文件wgcf-profile-conf"><a href="#配置文件wgcf-profile-conf" class="headerlink" title="配置文件wgcf-profile.conf"></a>配置文件<code>wgcf-profile.conf</code></h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = XXXXXXXX</span><br><span class="line">Address = 172.16.0.2/32</span><br><span class="line">Address = XXXX:XXXX:XXXX:XXXX/128</span><br><span class="line">PostUp = ip rule add from xx.xx.xx.xx(vps主网卡的ipv4）lookup main # v4 機器要雙棧接管的話要加上這行规则</span><br><span class="line">PostDown = ip rule del from xx.xx.xx.xx(vps主网卡的ipv4）lookup main # v4 機器要雙棧接管的話要加上這行规则</span><br><span class="line">PostUp = ip rule add from xx.xx.xx.xx(vps主网卡的ipv6）lookup main # v6 機器要雙棧接管的話要加上這行规则</span><br><span class="line">PostDown = ip rule del from xx.xx.xx.xx(vps主网卡的ipv6）lookup main # v6 機器要雙棧接管的話要加上這行规则</span><br><span class="line">DNS = 1.1.1.1</span><br><span class="line">MTU = 1280</span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = XXXXXXXX</span><br><span class="line">AllowedIPs = 0.0.0.0/0</span><br><span class="line">AllowedIPs = ::/0</span><br><span class="line">EndPoint = engage.cloudflareclient.com:2408</span><br><span class="line"><span class="meta">#</span><span class="bash">EndPoint = 162.159.192.1:2408</span></span><br><span class="line"><span class="meta">#</span><span class="bash">EndPoint = 2606:4700:d0::a29f:c001:2408</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="根据不同的需求，有不同的地方需要修改-IPv4-Only-VPS"><a href="#根据不同的需求，有不同的地方需要修改-IPv4-Only-VPS" class="headerlink" title="根据不同的需求，有不同的地方需要修改 - IPv4 Only VPS"></a>根据不同的需求，有不同的地方需要修改 - IPv4 Only VPS</h4><table>
+<thead>
+<tr>
+<th align="center">接管出口</th>
+<th align="center">VPS IP</th>
+<th align="center">AllowedIPs</th>
+<th align="center">Endpoint</th>
+<th align="center">PostUp/PostDown</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">v4</td>
+<td align="center">v4</td>
+<td align="center">刪掉 ::/0</td>
+<td align="center">改成 v4 地址</td>
+<td align="center">加 v4 規則</td>
+</tr>
+<tr>
+<td align="center">v6</td>
+<td align="center">v4</td>
+<td align="center">刪掉 0.0.0.0/0</td>
+<td align="center">改成 v4 地址</td>
+<td align="center">不用加</td>
+</tr>
+<tr>
+<td align="center">v4+v6</td>
+<td align="center">v4</td>
+<td align="center">不用刪</td>
+<td align="center">改成 v4 地址</td>
+<td align="center">加 v4 規則</td>
+</tr>
+</tbody></table>
+<h4 id="根據不同的需求，有不同的地方需要修改-IPv6-Only-VPS"><a href="#根據不同的需求，有不同的地方需要修改-IPv6-Only-VPS" class="headerlink" title="根據不同的需求，有不同的地方需要修改 - IPv6 Only VPS"></a>根據不同的需求，有不同的地方需要修改 - IPv6 Only VPS</h4><table>
+<thead>
+<tr>
+<th align="center">接管出口</th>
+<th align="center">VPS IP</th>
+<th align="center">AllowIPs</th>
+<th align="center">Endpoint</th>
+<th align="center">PostUp/PostDown</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">v4</td>
+<td align="center">v6</td>
+<td align="center">刪掉 ::/0</td>
+<td align="center">改成 v6 地址</td>
+<td align="center">不用加</td>
+</tr>
+<tr>
+<td align="center">v6</td>
+<td align="center">v6</td>
+<td align="center">刪掉 0.0.0.0/0</td>
+<td align="center">改成 v6 地址</td>
+<td align="center">加 v6 規則</td>
+</tr>
+<tr>
+<td align="center">v4+v6</td>
+<td align="center">v6</td>
+<td align="center">不用刪</td>
+<td align="center">改成 v6 地址</td>
+<td align="center">加 v6 規則</td>
+</tr>
+</tbody></table>
+<h4 id="根據不同的需求，有不同的地方需要修改-IPv4-IPv6-Dual-Stack-VPS"><a href="#根據不同的需求，有不同的地方需要修改-IPv4-IPv6-Dual-Stack-VPS" class="headerlink" title="根據不同的需求，有不同的地方需要修改 - IPv4/IPv6 Dual Stack VPS"></a>根據不同的需求，有不同的地方需要修改 - IPv4/IPv6 Dual Stack VPS</h4><table>
+<thead>
+<tr>
+<th align="center">接管出口</th>
+<th align="center">VPS IP</th>
+<th align="center">AllowedIPs</th>
+<th align="center">Endpoint</th>
+<th align="center">PostUp/PostDown</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">v4</td>
+<td align="center">v4+v6</td>
+<td align="center">刪掉 ::/0</td>
+<td align="center">不用改</td>
+<td align="center">加 v4 規則</td>
+</tr>
+<tr>
+<td align="center">v6</td>
+<td align="center">v4+v6</td>
+<td align="center">刪掉 0.0.0.0/0</td>
+<td align="center">不用改</td>
+<td align="center">加 v6 規則</td>
+</tr>
+<tr>
+<td align="center">v4+v6</td>
+<td align="center">v4+v6</td>
+<td align="center">不用刪</td>
+<td align="center">不用改</td>
+<td align="center">加 v4/v6 規則</td>
+</tr>
+</tbody></table>
+<h3 id="复制配置文件并重启"><a href="#复制配置文件并重启" class="headerlink" title="复制配置文件并重启"></a>复制配置文件并重启</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp wgcf-profile.conf /etc/wireguard/wgcf.conf</span><br><span class="line">sudo systemctl enable wg-quick@wgcf</span><br><span class="line">sudo systemctl start wg-quick@wgcf</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> IPv4 Only VPS</span></span><br><span class="line">curl -6 ip.p3terx.com</span><br><span class="line"><span class="meta">#</span><span class="bash"> IPv6 Only VPS</span></span><br><span class="line">curl -4 ip.p3terx.com</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/" rel="prev" title="Windows 11 开启 Doh">
+      <i class="fa fa-chevron-left"></i> Windows 11 开启 Doh
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E4%BA%8E-Debian-10"><span class="nav-number">1.</span> <span class="nav-text">适用于 Debian 10</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#v2ray"><span class="nav-number">1.1.</span> <span class="nav-text">v2ray</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E3%80%81%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF"><span class="nav-number">1.1.3.</span> <span class="nav-text">重启、开机自启</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#caddy"><span class="nav-number">1.2.</span> <span class="nav-text">caddy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wgcf"><span class="nav-number">1.3.</span> <span class="nav-text">wgcf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C"><span class="nav-number">1.3.2.</span> <span class="nav-text">注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90wireguard%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.3.</span> <span class="nav-text">生成wireguard配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WireGuard"><span class="nav-number">1.4.</span> <span class="nav-text">WireGuard</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.4.1.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7debian%E5%86%85%E6%A0%B8"><span class="nav-number">1.4.2.</span> <span class="nav-text">升级debian内核</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E6%97%A7%E5%86%85%E6%A0%B8"><span class="nav-number">1.4.3.</span> <span class="nav-text">卸载旧内核</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-3"><span class="nav-number">1.4.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6wgcf-profile-conf"><span class="nav-number">1.4.5.</span> <span class="nav-text">配置文件wgcf-profile.conf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E4%B8%8D%E5%90%8C%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E5%9C%B0%E6%96%B9%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-IPv4-Only-VPS"><span class="nav-number">1.4.5.1.</span> <span class="nav-text">根据不同的需求，有不同的地方需要修改 - IPv4 Only VPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E6%93%9A%E4%B8%8D%E5%90%8C%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E5%9C%B0%E6%96%B9%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-IPv6-Only-VPS"><span class="nav-number">1.4.5.2.</span> <span class="nav-text">根據不同的需求，有不同的地方需要修改 - IPv6 Only VPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B9%E6%93%9A%E4%B8%8D%E5%90%8C%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E5%9C%B0%E6%96%B9%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9-IPv4-IPv6-Dual-Stack-VPS"><span class="nav-number">1.4.5.3.</span> <span class="nav-text">根據不同的需求，有不同的地方需要修改 - IPv4&#x2F;IPv6 Dual Stack VPS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%B9%B6%E9%87%8D%E5%90%AF"><span class="nav-number">1.4.6.</span> <span class="nav-text">复制配置文件并重启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">1.4.7.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xixiha</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xixiha</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
