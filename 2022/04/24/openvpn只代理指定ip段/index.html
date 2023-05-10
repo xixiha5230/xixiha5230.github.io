@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xixiha5230.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="用途使openvpn只代理指定的ip，而不是默认的全局代理 openvpn配置文件关闭默认route：route-nopull  指定ip段进行代理：route 58.199.160.0 255.255.248.0 vpn_gateway SHU-Student 修改后的配置文件123456789101112131415161718192021222324252627282930313233343">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openvpn只代理指定ip段">
+<meta property="og:url" content="https://xixiha5230.github.io/2022/04/24/openvpn%E5%8F%AA%E4%BB%A3%E7%90%86%E6%8C%87%E5%AE%9Aip%E6%AE%B5/index.html">
+<meta property="og:site_name" content="xixiha&#39;s Blogs">
+<meta property="og:description" content="用途使openvpn只代理指定的ip，而不是默认的全局代理 openvpn配置文件关闭默认route：route-nopull  指定ip段进行代理：route 58.199.160.0 255.255.248.0 vpn_gateway SHU-Student 修改后的配置文件123456789101112131415161718192021222324252627282930313233343">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-04-24T09:38:20.000Z">
+<meta property="article:modified_time" content="2022-04-24T09:39:12.931Z">
+<meta property="article:author" content="xixiha">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xixiha5230.github.io/2022/04/24/openvpn%E5%8F%AA%E4%BB%A3%E7%90%86%E6%8C%87%E5%AE%9Aip%E6%AE%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>openvpn只代理指定ip段 | xixiha's Blogs</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xixiha's Blogs</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">https://github.com/xixiha5230/</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://xixiha5230.github.io/2022/04/24/openvpn%E5%8F%AA%E4%BB%A3%E7%90%86%E6%8C%87%E5%AE%9Aip%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="xixiha">
+      <meta itemprop="description" content="个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xixiha's Blogs">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          openvpn只代理指定ip段
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-24 17:38:20 / Modified: 17:39:12" itemprop="dateCreated datePublished" datetime="2022-04-24T17:38:20+08:00">2022-04-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h1><p>使openvpn只代理指定的ip，而不是默认的全局代理</p>
+<h1 id="openvpn配置文件"><a href="#openvpn配置文件" class="headerlink" title="openvpn配置文件"></a>openvpn配置文件</h1><p>关闭默认route：<code>route-nopull</code> </p>
+<p>指定ip段进行代理：<code>route 58.199.160.0 255.255.248.0 vpn_gateway</code></p>
+<h1 id="SHU-Student-修改后的配置文件"><a href="#SHU-Student-修改后的配置文件" class="headerlink" title="SHU-Student 修改后的配置文件"></a>SHU-Student 修改后的配置文件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">client</span><br><span class="line">dev tun</span><br><span class="line">proto tcp</span><br><span class="line"></span><br><span class="line">route-nopull</span><br><span class="line">route 58.199.160.0 255.255.248.0 vpn_gateway</span><br><span class="line">route 202.120.112.0 255.255.248.0 vpn_gateway</span><br><span class="line"></span><br><span class="line">&lt;connection&gt;</span><br><span class="line">remote openvpn3.shu.edu.cn 443</span><br><span class="line">&lt;/connection&gt;</span><br><span class="line"></span><br><span class="line">comp-lzo</span><br><span class="line">resolv-retry infinite</span><br><span class="line">nobind</span><br><span class="line">persist-key</span><br><span class="line">persist-tun</span><br><span class="line">setenv CLIENT_CERT 0</span><br><span class="line">auth-user-pass</span><br><span class="line">remote-cert-tls server</span><br><span class="line">verb 3</span><br><span class="line"></span><br><span class="line">sndbuf 0</span><br><span class="line">rcvbuf 0</span><br><span class="line">mssfix 0</span><br><span class="line">cipher none</span><br><span class="line"></span><br><span class="line">&lt;ca&gt;</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIEoTCCA4mgAwIBAgIJAMW52H83M9JAMA0GCSqGSIb3DQEBCwUAMIGRMQswCQYD</span><br><span class="line">VQQGEwJDTjELMAkGA1UECBMCU0gxETAPBgNVBAcTCFNoYW5nSGFpMQwwCgYDVQQK</span><br><span class="line">EwNTSFUxDDAKBgNVBAsTA1NIVTEPMA0GA1UEAxMGU0hVIENBMRAwDgYDVQQpEwdF</span><br><span class="line">YXN5UlNBMSMwIQYJKoZIhvcNAQkBFhRyb2RkeTE5ODZAc2h1LmVkdS5jbjAeFw0x</span><br><span class="line">NzA2MjEwOTQwMjlaFw0yNzA2MTkwOTQwMjlaMIGRMQswCQYDVQQGEwJDTjELMAkG</span><br><span class="line">A1UECBMCU0gxETAPBgNVBAcTCFNoYW5nSGFpMQwwCgYDVQQKEwNTSFUxDDAKBgNV</span><br><span class="line">BAsTA1NIVTEPMA0GA1UEAxMGU0hVIENBMRAwDgYDVQQpEwdFYXN5UlNBMSMwIQYJ</span><br><span class="line">KoZIhvcNAQkBFhRyb2RkeTE5ODZAc2h1LmVkdS5jbjCCASIwDQYJKoZIhvcNAQEB</span><br><span class="line">BQADggEPADCCAQoCggEBAJ17qOLBJgX7DKsBxVhqpfYkZcPwy8DggDiwRHNLLP3h</span><br><span class="line">aEWRcS5NViqGthWh4mWvVkD9RypYlUywbYewoSkuLyllsFuw+iZUR93cWGMjccq/</span><br><span class="line">9ZdhVPpYCGRJrtkTNeVtU9XTXEjZ3vWEwAMpOcVdhLQz6kxCVTt2qrB4ClhIAdPh</span><br><span class="line">jaz5tusNlwVGzaM7EMIr3O08Y8gYlAe78tkD+18uCMYIyKPORs9H31UHbreLcONv</span><br><span class="line">4Lc3dOz/g4KOQTkuwqcRnTJN1AVVfpjFUQeabyxFV/u4BkSvU33HWxLzYiyDGZkU</span><br><span class="line">W8PLr1mouNEXWGHxfhooZb9wozk+jfuLYk3KhKh9+ZMCAwEAAaOB+TCB9jAdBgNV</span><br><span class="line">HQ4EFgQU2sjeWJZf5o/1eL1Ke5PyE7K1nw4wgcYGA1UdIwSBvjCBu4AU2sjeWJZf</span><br><span class="line">5o/1eL1Ke5PyE7K1nw6hgZekgZQwgZExCzAJBgNVBAYTAkNOMQswCQYDVQQIEwJT</span><br><span class="line">SDERMA8GA1UEBxMIU2hhbmdIYWkxDDAKBgNVBAoTA1NIVTEMMAoGA1UECxMDU0hV</span><br><span class="line">MQ8wDQYDVQQDEwZTSFUgQ0ExEDAOBgNVBCkTB0Vhc3lSU0ExIzAhBgkqhkiG9w0B</span><br><span class="line">CQEWFHJvZGR5MTk4NkBzaHUuZWR1LmNuggkAxbnYfzcz0kAwDAYDVR0TBAUwAwEB</span><br><span class="line">/zANBgkqhkiG9w0BAQsFAAOCAQEATqu24naX9L6jyzXt+mBJAS5IWr7gfh5Ymi7X</span><br><span class="line">Tl+uSXS+H0w7VYqSGsrQsd17U9RfcAxglhGx2FtYvuYVWHQ4InaUjbrzxDrFO+ZG</span><br><span class="line">rN471ASybovHR97rHfPOnqigAbDaKLynb8JoFYkzAxRAclPh/jZFXpG06KC+fkW/</span><br><span class="line">ox+1WKF/6d5gXOZOTf0GuJi4JHRojDzb5p/Z6/8gxE9krVsQmfiR3HnaegyTVMle</span><br><span class="line">KzpCQRuEx5rn/uDvV6joYCwy4q0BkQTKGBeUofR2ETlTeC7t6l+GKRPwCQ8BeBvL</span><br><span class="line">e0+RSP6QWl/+flS0qdmtSswuZF98OqAuu6wW2PHXB3auUn77nw==</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">&lt;/ca&gt;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/05/WSL2%E7%BD%91%E7%BB%9C%E6%A1%A5%E6%8E%A5/" rel="prev" title="WSL2网络桥接">
+      <i class="fa fa-chevron-left"></i> WSL2网络桥接
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/11/Windows-11-%E5%BC%80%E5%90%AF-Doh/" rel="next" title="Windows 11 开启 Doh">
+      Windows 11 开启 Doh <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E9%80%94"><span class="nav-number">1.</span> <span class="nav-text">用途</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#openvpn%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">openvpn配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SHU-Student-%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">SHU-Student 修改后的配置文件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">xixiha</p>
+  <div class="site-description" itemprop="description">个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xixiha</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
